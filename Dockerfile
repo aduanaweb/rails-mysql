@@ -1,37 +1,32 @@
-FROM ruby:2.4.0
+# DOCKER FILE 
 
-MAINTAINER Márcio Luiz - Interact Software
+FROM       ubuntu:14.04
+MAINTAINER Márcio Luiz "marcio@interactsoftware.com.br"
 
-RUN apt-get update -qq && apt-get install -y build-essential
+# Install dependency packages
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y git
+RUN apt-get clean
 
-WORKDIR /app
-ONBUILD ADD . /app
+# Deploy rbenv and ruby-build
+RUN git clone https://github.com/sstephenson/rbenv.git /root/.rbenv
+RUN git clone https://github.com/sstephenson/ruby-build.git /root/.rbenv/plugins/ruby-build
+ENV RBENV_ROOT /root/.rbenv
+ENV PATH /root/.rbenv/bin:/root/.rbenv/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ADD ./rbenv.sh /etc/profile.d/rbenv.sh
 
-# for nokogiri
-RUN apt-get install -y libxml2-dev libxslt1-dev
+# Install Ruby
+RUN rbenv install 2.4.0
+RUN rbenv global 2.4.0
+RUN rbenv rehash
 
-# for capybara-webkit
-RUN apt-get install -y libqt4-webkit libqt4-dev xvfb
+# Install Bundler
+RUN gem install --no-ri --no-rdoc bundler
 
-# for node
-RUN apt-get install -y python python-dev python-pip python-virtualenv
+# Install Rails
+RUN gem install rails-4.2.6
 
-# cleanup
-RUN rm -rf /var/lib/apt/lists/*
-
-# install nodejs
-RUN \
-  cd /tmp && \
-  wget http://nodejs.org/dist/node-latest.tar.gz && \
-  tar xvzf node-latest.tar.gz && \
-  rm -f node-latest.tar.gz && \
-  cd node-v* && \
-  ./configure && \
-  CXX="g++ -Wno-unused-local-typedefs" make && \
-  CXX="g++ -Wno-unused-local-typedefs" make install && \
-  cd /tmp && \
-  rm -rf /tmp/node-v* && \
-  npm install -g npm && \
-  echo '\n# Node.js\nexport PATH="node_modules/.bin:$PATH"' >> /root/.bashrc
-
-CMD ["bash"]
+# Install Curl and Node.js (for asset pipeline)
+RUN apt-get install -qq -y curl
+RUN apt-get install -qq -y nodejs
