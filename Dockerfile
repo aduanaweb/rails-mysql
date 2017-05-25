@@ -1,0 +1,42 @@
+FROM ruby:2.4.0
+
+MAINTAINER Márcio Luiz - Interact Software
+
+RUN apt-get update -qq && apt-get install -y build-essential
+
+WORKDIR /app
+ONBUILD ADD . /app
+
+# for nokogiri
+RUN apt-get install -y libxml2-dev libxslt1-dev
+
+# for capybara-webkit
+RUN apt-get install -y libqt4-webkit libqt4-dev xvfb
+
+# for node
+RUN apt-get install -y python python-dev python-pip python-virtualenv
+
+# cleanup
+RUN rm -rf /var/lib/apt/lists/*
+
+# install nodejs
+RUN \
+  cd /tmp && \
+  wget http://nodejs.org/dist/node-latest.tar.gz && \
+  tar xvzf node-latest.tar.gz && \
+  rm -f node-latest.tar.gz && \
+  cd node-v* && \
+  ./configure && \
+  CXX="g++ -Wno-unused-local-typedefs" make && \
+  CXX="g++ -Wno-unused-local-typedefs" make install && \
+  cd /tmp && \
+  rm -rf /tmp/node-v* && \
+  npm install -g npm && \
+  echo '\n# Node.js\nexport PATH="node_modules/.bin:$PATH"' >> /root/.bashrc
+
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && apt-get install -y apt-utils yarn && \
+    gem install rails -v 4.2.6
+    
+CMD ["bash"]
