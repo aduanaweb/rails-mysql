@@ -19,12 +19,12 @@ This repository contains a Dockerfile of Ruby on Rails, nodejs and npm for Docke
 
 ### Usage
 
-  docker run -it --rm marcioluiz/rails-node
+  docker run -it --rm interactsoftware/rails-node
 
 ### Run `ruby`
 
-  docker run -it --rm marcioluiz/rails-node ruby
+  docker run -it --rm interactsoftware/rails-node ruby
 
 ### Run `node`
 
-  docker run -it --rm marcioluiz/rails-node node
+  docker run -it --rm interactsoftware/rails-node node
