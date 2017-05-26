@@ -23,13 +23,9 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - \
 
 RUN gem install bundler --no-ri --no-rdoc
 
-# Enable nginx
-RUN rm -f /etc/service/nginx/down /etc/nginx/sites-enabled/default
-
 # Cleanup
 RUN apt-get autoremove -y
 
-EXPOSE 80 443
 WORKDIR /home/app
 
 CMD ["/sbin/my_init"]
