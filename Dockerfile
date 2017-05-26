@@ -1,7 +1,7 @@
 # DOCKER FILE 
 
-FROM ruby:2.4.0
-# FROM phusion/passenger-ruby24
+# FROM ruby:2.4.0
+FROM phusion/passenger-ruby24
 
 MAINTAINER Márcio Luiz "marcio@interactsoftware.com.br"
 
