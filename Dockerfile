@@ -30,8 +30,6 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - \
   graphviz \
   wget
 
-RUN gem install bundler --no-ri --no-rdoc
-
 # Cleanup
 RUN apt-get autoremove -y
 
