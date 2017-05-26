@@ -13,7 +13,7 @@ RUN apt-get install build-essential curl dkms git htop linux-headers-$(uname -r)
                 tmux tree unattended-upgrades unzip vim -q -y
 
 # Install Ruby on Rails
-RUN chmod +x /ruby.sh
+RUN "ruby.sh"
 
 # Install Node.js and other dependencies
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - \
