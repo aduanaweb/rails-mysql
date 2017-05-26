@@ -6,6 +6,8 @@ MAINTAINER Márcio Luiz "marcio@interactsoftware.com.br"
 
 ENV HOME /root
 
+WORKDIR /root
+
 # Update O.S.
 RUN apt-get update -q
 RUN apt-get install build-essential curl dkms git htop linux-headers-$(uname -r) \
@@ -13,8 +15,8 @@ RUN apt-get install build-essential curl dkms git htop linux-headers-$(uname -r)
                 tmux tree unattended-upgrades unzip vim -q -y
 
 # Install Ruby on Rails
-ADD ruby.sh /usr/local/bin/ruby.sh
-CMD ["/usr/local/bin/ruby.sh"]
+ADD ruby.sh /root/ruby.sh
+CMD [./ruby.sh]
 
 # Install Node.js and other dependencies
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - \
@@ -32,7 +34,5 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - \
 
 # Cleanup
 RUN apt-get autoremove -y
-
-WORKDIR /home/app
 
 CMD ["/sbin/my_init"]
