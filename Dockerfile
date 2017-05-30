@@ -21,11 +21,11 @@ RUN apt-get install imagemagick libcurl4-openssl-dev libmagickwand-dev libqt4-de
                 libreadline-dev libsqlite3-dev libssl-dev libv8-dev \
                 libxml2-dev libxslt1-dev libyaml-dev sqlite3 zlib1g-dev -q -y 
                 
-RUN read -d '' RBENV_SNIPPET <<"EOF" 
+CMD read -d '' RBENV_SNIPPET <<"EOF" 
 
-RUN export RBENV_ROOT="${HOME}/.rbenv" 
+CMD export RBENV_ROOT="${HOME}/.rbenv" 
 
-RUN if [ -d "${RBENV_ROOT}" ]; then \
+CMD if [ -d "${RBENV_ROOT}" ]; then \
       export PATH="${RBENV_ROOT}/bin:${PATH}" \ 
       eval "$(rbenv init -)" \
     fi \
