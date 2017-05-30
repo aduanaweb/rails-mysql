@@ -55,7 +55,7 @@ CMD for plugin in ${PLUGINS[@]} ; do \
 done \
 EOF
 
-# RUN su - ubuntu -c "$RBENV_INSTALL"
+CMD su - ubuntu -c "$RBENV_INSTALL"
 
 # Install ruby
 CMD read -d '' RUBY_INSTALL <<EOF
