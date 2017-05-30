@@ -33,34 +33,39 @@ EOF
 RUN echo "$RBENV_SNIPPET" | tee -a /home/ubuntu/.profile
 
 # Install rbenv
-RUN read -d '' RBENV_INSTALL <<"EOF" 
-git clone git://github.com/rbenv/rbenv.git $RBENV_ROOT 
+# RUN read -d '' RBENV_INSTALL <<"EOF" 
 
-PLUGINS=( 
-  rbenv/rbenv-vars 
-  rbenv/ruby-build 
-  rbenv/rbenv-default-gems
-  rkh/rbenv-update
-  rkh/rbenv-whatis
-  dcarley/rbenv-sudo
-)
-for plugin in ${PLUGINS[@]} ; do
-  KEY=${plugin%%/*}
-  VALUE=${plugin#*/}
-  RBENV_PLUGIN_ROOT="${RBENV_ROOT}/plugins/$VALUE"
-  git clone https://github.com/$KEY/$VALUE.git $RBENV_PLUGIN_ROOT
-done
-EOF
+RUN git clone git://github.com/rbenv/rbenv.git $RBENV_ROOT 
 
-RUN su - ubuntu -c "$RBENV_INSTALL"
+RUN PLUGINS=( \
+  rbenv/rbenv-vars \
+  rbenv/ruby-build \
+  rbenv/rbenv-default-gems \
+  rkh/rbenv-update \
+  rkh/rbenv-whatis \
+  dcarley/rbenv-sudo \
+) 
+
+RUN for plugin in ${PLUGINS[@]} ; do \
+  KEY=${plugin%%/*} \
+  VALUE=${plugin#*/} \
+  RBENV_PLUGIN_ROOT="${RBENV_ROOT}/plugins/$VALUE" \
+  git clone https://github.com/$KEY/$VALUE.git $RBENV_PLUGIN_ROOT \
+done \
+
+# EOF
+
+# RUN su - ubuntu -c "$RBENV_INSTALL"
 
 # Install ruby
-RUN read -d '' RUBY_INSTALL <<EOF
-echo "gem: --no-ri --no-rdoc" >> ~/.gemrc
-rbenv install -v -k $ruby_version;
-rbenv global $ruby_version;
-gem install bundler;
-EOF
+# read -d '' RUBY_INSTALL <<EOF \
+
+RUN echo "gem: --no-ri --no-rdoc" >> ~/.gemrc \
+    rbenv install -v -k $ruby_version; \
+    rbenv global $ruby_version; \
+    gem install bundler; 
+
+# EOF
 
 RUN su - ubuntu -c "$RUBY_INSTALL"
 
