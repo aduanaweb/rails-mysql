@@ -28,9 +28,8 @@ RUN export RBENV_ROOT="${HOME}/.rbenv"
 RUN if [ -d "${RBENV_ROOT}" ]; then \
       export PATH="${RBENV_ROOT}/bin:${PATH}" \ 
       eval "$(rbenv init -)" \
-    fi
-
-# EOF
+    fi \
+EOF
     
 CMD echo "$RBENV_SNIPPET" | tee -a /home/ubuntu/.profile
 
