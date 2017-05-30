@@ -32,14 +32,14 @@ RUN if [ -d "${RBENV_ROOT}" ]; then \
 
 # EOF
     
-RUN echo "$RBENV_SNIPPET" | tee -a /home/ubuntu/.profile
+CMD echo "$RBENV_SNIPPET" | tee -a /home/ubuntu/.profile
 
 # Install rbenv
-# RUN read -d '' RBENV_INSTALL <<"EOF" 
+CMD read -d '' RBENV_INSTALL <<"EOF" 
 
-RUN git clone git://github.com/rbenv/rbenv.git $RBENV_ROOT 
+CMD git clone git://github.com/rbenv/rbenv.git $RBENV_ROOT 
 
-RUN PLUGINS=( \
+CMD PLUGINS=( \
   rbenv/rbenv-vars \
   rbenv/ruby-build \
   rbenv/rbenv-default-gems \
@@ -48,28 +48,25 @@ RUN PLUGINS=( \
   dcarley/rbenv-sudo \
 ) 
 
-RUN for plugin in ${PLUGINS[@]} ; do \
+CMD for plugin in ${PLUGINS[@]} ; do \
   KEY=${plugin%%/*} \
   VALUE=${plugin#*/} \
   RBENV_PLUGIN_ROOT="${RBENV_ROOT}/plugins/$VALUE" \
   git clone https://github.com/$KEY/$VALUE.git $RBENV_PLUGIN_ROOT \
 done \
-
-# EOF
+EOF
 
 # RUN su - ubuntu -c "$RBENV_INSTALL"
 
 # Install ruby
-# read -d '' RUBY_INSTALL <<EOF \
+CMD read -d '' RUBY_INSTALL <<EOF
+CMD echo "gem: --no-ri --no-rdoc" >> ~/.gemrc
+CMD rbenv install -v -k $ruby_version; 
+CMD rbenv global $ruby_version; 
+CMD gem install bundler; 
+CMD EOF
 
-RUN echo "gem: --no-ri --no-rdoc" >> ~/.gemrc \
-    rbenv install -v -k $ruby_version; \
-    rbenv global $ruby_version; \
-    gem install bundler; 
-
-# EOF
-
-RUN su - ubuntu -c "$RUBY_INSTALL"
+CMD su - ubuntu -c "$RUBY_INSTALL"
 
 # Install Node.js and other dependencies
 RUN curl -sL https://deb.nodesource.com/setup_7.x | bash - \
