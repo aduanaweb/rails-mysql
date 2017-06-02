@@ -8,12 +8,6 @@ ENV HOME /root
 
 WORKDIR /root
 
-# Update O.S.
-RUN apt-get update -q
-RUN apt-get install build-essential curl dkms git htop linux-headers-$(uname -r) \
-                ntp python-software-properties software-properties-common \
-                tmux tree unattended-upgrades unzip vim -q -y
-
 # Install Ruby on Rails
 
 RUN apk add --no-cache --update ca-certificates ruby ruby-dev musl-dev gcc make
