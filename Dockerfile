@@ -1,6 +1,6 @@
 # DOCKER FILE 
 
-FROM ruby:2.3-alpine
+FROM ruby:2.3.1
 ENV NPM_CONFIG_LOGLEVEL info
 ENV NODE_VERSION 6.9.2
 
@@ -56,6 +56,6 @@ RUN apk add --no-cache --virtual .build-deps \
       make \
       python \
       sqlite-dev \
-  && gem install rails \
+  && gem install bundler \
   && rails new --skip-turbolinks --skip-spring ./tmpapp \
   && rm -rf tmpapp
