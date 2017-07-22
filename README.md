@@ -1,30 +1,29 @@
-# Ruby on Rails + Nodejs Dockerfile
+# Ruby on Rails + MySQL Dockerfile
 
-This repository contains a Dockerfile of Ruby on Rails, nodejs and npm for Docker's automated build published to the public Docker Hub Registry.
+This repository contains a Dockerfile of Ruby on Rails and MySQL for Docker's automated build published to the public Docker Hub Registry.
 
 ## What's included
 
-- Ruby 2.4.0
+- Ruby 2.3.1
 - Rails 4.2.6
-- Nodejs (latest)
-- npm
+- MySQL (latest)
 
 ## Installation
 
 1. Install [Docker](https://www.docker.com/).
 
-2. Download [automated build](https://registry.hub.docker.com/u/interactsoftware/rails-node/) from public [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull interactsoftware/rails-node`
+2. Download [automated build](https://registry.hub.docker.com/u/interactsoftware/rails-mysql/) from public [Docker Hub Registry](https://registry.hub.docker.com/): `docker pull interactsoftware/rails-mysql`
 
-(alternatively, you can build an image from Dockerfile: `docker build -t="interactsoftware/rails-node" github.com/marcioluiz/rails-node`)
+(alternatively, you can build an image from Dockerfile: `docker build -t="interactsoftware/rails-mysql" github.com/marcioluiz/rails-mysql`)
 
 ### Usage
 
-  docker run -it --rm interactsoftware/rails-node
+  docker run -it --rm interactsoftware/rails-mysql
 
 ### Run `ruby`
 
-  docker run -it --rm interactsoftware/rails-node ruby
+  docker run -it --rm interactsoftware/rails-mysql ruby
 
-### Run `node`
+### Run `mysql`
 
-  docker run -it --rm interactsoftware/rails-node node
+  docker run -it --rm interactsoftware/rails-mysql mysql
