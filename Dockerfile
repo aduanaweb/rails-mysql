@@ -1,6 +1,6 @@
 # DOCKER FILE 
 
-FROM ruby:2.3.1
+FROM ruby:2.4.2
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update \
   && apt-get install -y mysql-server mysql-client libmysqlclient-dev --no-install-recommends \
